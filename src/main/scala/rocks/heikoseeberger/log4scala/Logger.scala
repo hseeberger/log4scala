@@ -39,6 +39,70 @@ object Logger:
 final class Logger private[log4scala] (u: Underlying):
 
   /**
+   * Logs at `ERROR` level, if enabled.
+   * @param message Log message; only constructed, if `ERROR` level enabled.
+   */
+  inline def error(message: => String): Unit =
+    if (u.isErrorEnabled) u.error(message)
+
+  /**
+   * Logs at `ERROR` level, if enabled.
+   * @param message Log message; only constructed, if `ERROR` level enabled.
+   * @param t `Throwable` to be logged
+   */
+  inline def error(message: => String, t: Throwable): Unit =
+    if (u.isErrorEnabled) u.error(message, t)
+
+  /**
+   * Logs at `ERROR` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `ERROR` level enabled.
+   */
+  inline def error(marker: Marker, message: => String): Unit =
+    if (u.isErrorEnabled(marker)) u.error(marker, message)
+
+  /**
+   * Logs at `ERROR` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `ERROR` level enabled.
+   * @param t `Throwable` to be logged.
+   */
+  inline def error(marker: Marker, message: => String, t: Throwable): Unit =
+    if (u.isErrorEnabled(marker)) u.error(marker, message, t)
+
+  /**
+   * Logs at `WARN` level, if enabled.
+   * @param message Log message; only constructed, if `WARN` level enabled.
+   */
+  inline def warn(message: => String): Unit =
+    if (u.isWarnEnabled) u.warn(message)
+
+  /**
+   * Logs at `WARN` level, if enabled.
+   * @param message Log message; only constructed, if `WARN` level enabled.
+   * @param t `Throwable` to be logged
+   */
+  inline def warn(message: => String, t: Throwable): Unit =
+    if (u.isWarnEnabled) u.warn(message, t)
+
+  /**
+   * Logs at `WARN` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `WARN` level enabled.
+   */
+  inline def warn(marker: Marker, message: => String): Unit =
+    if (u.isWarnEnabled(marker)) u.warn(marker, message)
+
+  /**
+   * Logs at `WARN` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `WARN` level enabled.
+   * @param t `Throwable` to be logged.
+   */
+  inline def warn(marker: Marker, message: => String, t: Throwable): Unit =
+    if (u.isWarnEnabled(marker)) u.warn(marker, message, t)
+
+  /**
    * Logs at `INFO` level, if enabled.
    * @param message Log message; only constructed, if `INFO` level enabled.
    */

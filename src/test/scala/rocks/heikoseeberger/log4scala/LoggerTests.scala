@@ -31,12 +31,126 @@ final class LoggerTests extends FunSuite:
   private val t = new Exception("error")
   
   private val marker = MarkerManager.getMarker("marker")
+
+  test("error") {
+    val out = withOut { Logger(getClass).error(Message) }
+    assertEquals(out.toString, s"ERROR ${getClass.getSimpleName} - $Message\n")
+  }
+
+  test("error with message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isErrorEnabled).thenReturn(true)
+    logger.error(Message)
+    verify(underlying).error(Message)
+
+    when(underlying.isErrorEnabled).thenReturn(false)
+    logger.error(Message2)
+    verify(underlying, never).error(Message2)
+  }
+
+  test("error with message and Throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isErrorEnabled).thenReturn(true)
+    logger.error(Message, t)
+    verify(underlying).error(Message, t)
+
+    when(underlying.isErrorEnabled).thenReturn(false)
+    logger.error(Message2, t)
+    verify(underlying, never).error(Message2, t)
+  }
+
+  test("error with marker and message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isErrorEnabled(marker)).thenReturn(true)
+    logger.error(marker, Message)
+    verify(underlying).error(marker, Message)
+
+    when(underlying.isErrorEnabled(marker)).thenReturn(false)
+    logger.error(marker, Message2)
+    verify(underlying, never).error(marker, Message2)
+  }
+
+  test("error with marker, message and throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isErrorEnabled(marker)).thenReturn(true)
+    logger.error(marker, Message, t)
+    verify(underlying).error(marker, Message, t)
+
+    when(underlying.isErrorEnabled(marker)).thenReturn(false)
+    logger.error(marker, Message2, t)
+    verify(underlying, never).error(marker, Message2, t)
+  }
   
+  test("warn") {
+    val out = withOut { Logger(getClass).warn(Message) }
+    assertEquals(out.toString, s"WARN  ${getClass.getSimpleName} - $Message\n")
+  }
+  
+  test("warn with message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isWarnEnabled).thenReturn(true)
+    logger.warn(Message)
+    verify(underlying).warn(Message)
+
+    when(underlying.isWarnEnabled).thenReturn(false)
+    logger.warn(Message2)
+    verify(underlying, never).warn(Message2)
+  }
+
+  test("warn with message and Throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isWarnEnabled).thenReturn(true)
+    logger.warn(Message, t)
+    verify(underlying).warn(Message, t)
+
+    when(underlying.isWarnEnabled).thenReturn(false)
+    logger.warn(Message2, t)
+    verify(underlying, never).warn(Message2, t)
+  }
+
+  test("warn with marker and message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isWarnEnabled(marker)).thenReturn(true)
+    logger.warn(marker, Message)
+    verify(underlying).warn(marker, Message)
+
+    when(underlying.isWarnEnabled(marker)).thenReturn(false)
+    logger.warn(marker, Message2)
+    verify(underlying, never).warn(marker, Message2)
+  }
+
+  test("warn with marker, message and throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isWarnEnabled(marker)).thenReturn(true)
+    logger.warn(marker, Message, t)
+    verify(underlying).warn(marker, Message, t)
+
+    when(underlying.isWarnEnabled(marker)).thenReturn(false)
+    logger.warn(marker, Message2, t)
+    verify(underlying, never).warn(marker, Message2, t)
+  }
+
   test("info") {
     val out = withOut { Logger(getClass).info(Message) }
     assertEquals(out.toString, s"INFO  ${getClass.getSimpleName} - $Message\n")
   }
-  
+
   test("info with message") {
     val underlying = mock(classOf[Underlying])
     val logger     = new Logger(underlying)
