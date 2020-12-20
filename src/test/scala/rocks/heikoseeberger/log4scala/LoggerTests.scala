@@ -203,6 +203,63 @@ final class LoggerTests extends FunSuite:
     verify(underlying, never).info(marker, Message2, t)
   }
 
+  test("debug") {
+    val out = withOut { Logger(getClass).debug(Message) }
+    assertEquals(out.toString, s"DEBUG ${getClass.getSimpleName} - $Message\n")
+  }
+
+  test("debug with message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isDebugEnabled).thenReturn(true)
+    logger.debug(Message)
+    verify(underlying).debug(Message)
+
+    when(underlying.isDebugEnabled).thenReturn(false)
+    logger.debug(Message2)
+    verify(underlying, never).debug(Message2)
+  }
+
+  test("debug with message and Throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isDebugEnabled).thenReturn(true)
+    logger.debug(Message, t)
+    verify(underlying).debug(Message, t)
+
+    when(underlying.isDebugEnabled).thenReturn(false)
+    logger.debug(Message2, t)
+    verify(underlying, never).debug(Message2, t)
+  }
+
+  test("debug with marker and message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isDebugEnabled(marker)).thenReturn(true)
+    logger.debug(marker, Message)
+    verify(underlying).debug(marker, Message)
+
+    when(underlying.isDebugEnabled(marker)).thenReturn(false)
+    logger.debug(marker, Message2)
+    verify(underlying, never).debug(marker, Message2)
+  }
+
+  test("debug with marker, message and throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isDebugEnabled(marker)).thenReturn(true)
+    logger.debug(marker, Message, t)
+    verify(underlying).debug(marker, Message, t)
+
+    when(underlying.isDebugEnabled(marker)).thenReturn(false)
+    logger.debug(marker, Message2, t)
+    verify(underlying, never).debug(marker, Message2, t)
+  }
+
   private def withOut(chunk: => Unit) =
     val old = System.out
     val out = ByteArrayOutputStream()

@@ -133,3 +133,35 @@ final class Logger private[log4scala] (u: Underlying):
    */
   inline def info(marker: Marker, message: => String, t: Throwable): Unit =
     if (u.isInfoEnabled(marker)) u.info(marker, message, t)
+
+  /**
+   * Logs at `DEBUG` level, if enabled.
+   * @param message Log message; only constructed, if `DEBUG` level enabled.
+   */
+  inline def debug(message: => String): Unit =
+    if (u.isDebugEnabled) u.debug(message)
+
+  /**
+   * Logs at `DEBUG` level, if enabled.
+   * @param message Log message; only constructed, if `DEBUG` level enabled.
+   * @param t `Throwable` to be logged
+   */
+  inline def debug(message: => String, t: Throwable): Unit =
+    if (u.isDebugEnabled) u.debug(message, t)
+
+  /**
+   * Logs at `DEBUG` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `DEBUG` level enabled.
+   */
+  inline def debug(marker: Marker, message: => String): Unit =
+    if (u.isDebugEnabled(marker)) u.debug(marker, message)
+
+  /**
+   * Logs at `DEBUG` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `DEBUG` level enabled.
+   * @param t `Throwable` to be logged.
+   */
+  inline def debug(marker: Marker, message: => String, t: Throwable): Unit =
+    if (u.isDebugEnabled(marker)) u.debug(marker, message, t)
