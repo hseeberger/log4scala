@@ -39,6 +39,13 @@ object Logger:
 final class Logger private[log4scala] (u: Underlying):
 
   /**
+   * Returns the name of this [[Logger]].
+   * @return The name of this [[Logger]].
+   */
+  def name: String =
+    u.getName
+
+  /**
    * Logs at `FATAL` level, if enabled.
    * @param message Log message; only constructed, if `FATAL` level enabled.
    */
