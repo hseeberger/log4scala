@@ -32,6 +32,63 @@ final class LoggerTests extends FunSuite:
   
   private val marker = MarkerManager.getMarker("marker")
 
+  test("fatal") {
+    val out = withOut { Logger(getClass).fatal(Message) }
+    assertEquals(out.toString, s"FATAL ${getClass.getSimpleName} - $Message\n")
+  }
+
+  test("fatal with message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isFatalEnabled).thenReturn(true)
+    logger.fatal(Message)
+    verify(underlying).fatal(Message)
+
+    when(underlying.isFatalEnabled).thenReturn(false)
+    logger.fatal(Message2)
+    verify(underlying, never).fatal(Message2)
+  }
+
+  test("fatal with message and Throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isFatalEnabled).thenReturn(true)
+    logger.fatal(Message, t)
+    verify(underlying).fatal(Message, t)
+
+    when(underlying.isFatalEnabled).thenReturn(false)
+    logger.fatal(Message2, t)
+    verify(underlying, never).fatal(Message2, t)
+  }
+
+  test("fatal with marker and message") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isFatalEnabled(marker)).thenReturn(true)
+    logger.fatal(marker, Message)
+    verify(underlying).fatal(marker, Message)
+
+    when(underlying.isFatalEnabled(marker)).thenReturn(false)
+    logger.fatal(marker, Message2)
+    verify(underlying, never).fatal(marker, Message2)
+  }
+
+  test("fatal with marker, message and throwable") {
+    val underlying = mock(classOf[Underlying])
+    val logger     = new Logger(underlying)
+
+    when(underlying.isFatalEnabled(marker)).thenReturn(true)
+    logger.fatal(marker, Message, t)
+    verify(underlying).fatal(marker, Message, t)
+
+    when(underlying.isFatalEnabled(marker)).thenReturn(false)
+    logger.fatal(marker, Message2, t)
+    verify(underlying, never).fatal(marker, Message2, t)
+  }
+
   test("error") {
     val out = withOut { Logger(getClass).error(Message) }
     assertEquals(out.toString, s"ERROR ${getClass.getSimpleName} - $Message\n")

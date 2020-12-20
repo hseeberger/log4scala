@@ -39,6 +39,38 @@ object Logger:
 final class Logger private[log4scala] (u: Underlying):
 
   /**
+   * Logs at `FATAL` level, if enabled.
+   * @param message Log message; only constructed, if `FATAL` level enabled.
+   */
+  inline def fatal(message: => String): Unit =
+    if (u.isFatalEnabled) u.fatal(message)
+
+  /**
+   * Logs at `FATAL` level, if enabled.
+   * @param message Log message; only constructed, if `FATAL` level enabled.
+   * @param t `Throwable` to be logged
+   */
+  inline def fatal(message: => String, t: Throwable): Unit =
+    if (u.isFatalEnabled) u.fatal(message, t)
+
+  /**
+   * Logs at `FATAL` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `FATAL` level enabled.
+   */
+  inline def fatal(marker: Marker, message: => String): Unit =
+    if (u.isFatalEnabled(marker)) u.fatal(marker, message)
+
+  /**
+   * Logs at `FATAL` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `FATAL` level enabled.
+   * @param t `Throwable` to be logged.
+   */
+  inline def fatal(marker: Marker, message: => String, t: Throwable): Unit =
+    if (u.isFatalEnabled(marker)) u.fatal(marker, message, t)
+
+  /**
    * Logs at `ERROR` level, if enabled.
    * @param message Log message; only constructed, if `ERROR` level enabled.
    */
@@ -165,3 +197,35 @@ final class Logger private[log4scala] (u: Underlying):
    */
   inline def debug(marker: Marker, message: => String, t: Throwable): Unit =
     if (u.isDebugEnabled(marker)) u.debug(marker, message, t)
+
+  /**
+   * Logs at `TRACE` level, if enabled.
+   * @param message Log message; only constructed, if `TRACE` level enabled.
+   */
+  inline def trace(message: => String): Unit =
+    if (u.isTraceEnabled) u.trace(message)
+
+  /**
+   * Logs at `TRACE` level, if enabled.
+   * @param message Log message; only constructed, if `TRACE` level enabled.
+   * @param t `Throwable` to be logged
+   */
+  inline def trace(message: => String, t: Throwable): Unit =
+    if (u.isTraceEnabled) u.trace(message, t)
+
+  /**
+   * Logs at `TRACE` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `TRACE` level enabled.
+   */
+  inline def trace(marker: Marker, message: => String): Unit =
+    if (u.isTraceEnabled(marker)) u.trace(marker, message)
+
+  /**
+   * Logs at `TRACE` level, if enabled.
+   * @param marker `Marker` for this log statement.
+   * @param message Log message; only constructed, if `TRACE` level enabled.
+   * @param t `Throwable` to be logged.
+   */
+  inline def trace(marker: Marker, message: => String, t: Throwable): Unit =
+    if (u.isTraceEnabled(marker)) u.trace(marker, message, t)
