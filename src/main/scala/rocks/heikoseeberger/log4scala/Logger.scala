@@ -40,7 +40,7 @@ final class Logger private[log4scala] (u: Underlying):
 
   /**
    * Logs at `INFO` level, if enabled.
-   * @param message Log message; only constructed, if `INFO` level enabled. 
+   * @param message Log message; only constructed, if `INFO` level enabled.
    */
   inline def info(message: => String): Unit =
     if (u.isInfoEnabled) u.info(message)
