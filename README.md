@@ -1,11 +1,14 @@
 # log4scala #
 
-log4scala is a library providing convenient and performant logging for Scala 3. It is piggybacking 
-on [Apache Logj4 2](https://logging.apache.org/log4j/2.x) (but you can use other backends like 
-[Logback](http://logback.qos.ch/)) and it automagically applies the check-enabled-idiom thanks to 
+![Build](https://img.shields.io/github/workflow/status/hseeberger/log4scala/Test)
+![Maven Central](https://img.shields.io/maven-central/v/rocks.heikoseeberger/log4scala)
+
+log4scala is a library providing convenient and performant logging for Scala 3. It piggybacks on
+[Apache Logj4 2](https://logging.apache.org/log4j/2.x) (but you could use other backends like
+[Logback](http://logback.qos.ch/)) and it automagically applies the check-enabled-idiom thanks to
 Scala 3 metaprogramming.
 
-In a nutshell, you can invoke logging methods like `info` without checking if the respective log 
+In a nutshell, you can invoke logging methods like `info` without checking if the respective log
 level is enabled, because that is handled for you by the compiler:
 
 ``` scala
@@ -19,18 +22,30 @@ The compiler will – more or less – create the following code for you:
 ``` scala
 ...
 // maybeCreateMessage() would return something like "I am an $expensive log message ;-)"
-if (logger.isInfoEnabled) logger.info(maybeCreateMessage()) 
+if (logger.isInfoEnabled) logger.info(maybeCreateMessage())
 ```
 
-So if the respective log level is not enabled, the potentially expensive construction of the log 
-message will not happen without you having to explicitly check the log level.
+So if the respective log level is not enabled, the potentially expensive construction of the log
+message will not happen, even though you do not have to spend any efforts on that.
+
+Further log4scala makes it easy to work with context maps (a.k.a. MDCs):
+
+``` scala
+withContextMap("key1" -> "value1", "key2" -> "value2") {
+  logger.info("Some message")
+  ...
+  logger.info("Some other message")
+}
+```
+
+The `withContextMap` method takes one or more key-value-pairs and a block of code. Within that block
+the key-value-pairs are put on the current context and removed afterwards even in the case of an
+exception. It also nicely integrates with Log4j Thread Context Maps and SLF4J MDCs.
 
 log4scala is inspired by:
 - [Scala Logging](https://github.com/lightbend/scala-logging)
 - [Log4j](https://github.com/Log4s/log4s)
 - [Scala 3 / Dotty docs](http://dotty.epfl.ch/docs/reference/metaprogramming/inline.html)
-
-So far log4scala is work in progress and there are not yet any releases.
 
 ## Contribution policy ##
 
