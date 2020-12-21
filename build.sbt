@@ -59,6 +59,7 @@ lazy val commonSettings =
       "-encoding", "UTF-8",
     ),
     testFrameworks += new TestFramework("munit.Framework"),
+    Test / parallelExecution := false, // Because of redirecting STDOUT, see `withOut`
     // TODO Enable once scalafmt supports Scala 3!
     // scalafmtOnCompile := true,
 )

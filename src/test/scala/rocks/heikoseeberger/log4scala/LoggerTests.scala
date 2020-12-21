@@ -16,11 +16,11 @@
 
 package rocks.heikoseeberger.log4scala
 
-import java.io.{ByteArrayOutputStream, PrintStream}
-import java.nio.file.{Files, Paths}
+import java.io.{ ByteArrayOutputStream, PrintStream }
+import java.nio.file.{ Files, Paths }
 import munit.FunSuite
-import org.mockito.Mockito.{mock, never, verify, when}
-import org.apache.logging.log4j.{MarkerManager, Logger => Underlying}
+import org.apache.logging.log4j.{ MarkerManager, Logger => Underlying }
+import org.mockito.Mockito.{ mock, never, verify, when }
 
 final class LoggerTests extends FunSuite:
   
@@ -316,12 +316,3 @@ final class LoggerTests extends FunSuite:
     logger.debug(marker, Message2, t)
     verify(underlying, never).debug(marker, Message2, t)
   }
-
-  private def withOut(chunk: => Unit) =
-    val old = System.out
-    val out = ByteArrayOutputStream()
-    try {
-      System.setOut(PrintStream(out))
-      chunk
-      out
-    } finally System.setOut(old)

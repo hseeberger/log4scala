@@ -4,7 +4,7 @@
     <Appenders>
         <Console name="stdout" follow="true">
             <PatternLayout>
-                <pattern>%-5level %logger{0} - %msg%n</pattern>
+                <pattern>%-5level %logger{0} - %msg%X{key-1}%X{key-2}%n</pattern>
             </PatternLayout>
         </Console>
     </Appenders>
