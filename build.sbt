@@ -46,6 +46,15 @@ lazy val commonSettings =
     organizationName := "Heiko Seeberger",
     startYear := Some(2020),
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
+    homepage := Some(url("https://github.com/hseeberger/log4scala")),
+    developers := List(
+      Developer(
+        "hseeberger",
+        "Heiko Seeberger",
+        "mail@heikoseeberger.de",
+        url("https://github.com/hseeberger")
+      )
+    ),
     scalacOptions ++= Seq(
       "-encoding", "UTF-8",
     ),
