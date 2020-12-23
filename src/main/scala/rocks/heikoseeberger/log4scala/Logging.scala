@@ -16,20 +16,19 @@
 
 package rocks.heikoseeberger.log4scala
 
-/**
- * Mixin providing a `Logger`.
- */
-transparent trait Logging:
+private transparent trait Logging[U <: Underlying]:
+  
+  /**
+   * [[Logger]] named according to the class or object mixed into.
+   * If mixed into an object, the trailing "$" is stripped from the name, i.e. the same name is used as for the companion class.
+   * @return The [[Logger]] named according to the class or object mixed into.
+   */
+  final protected val logger: Logger[U] =
+    Logger(createUnderlying(loggerName))
 
   /**
-   * Logger initialized with the name of the class mixed into. If mixed into an object, the 
-   * trailing "$" is stripped from the name, i.e. the same name used as for the companion class.
+   * Factory for creating an underlying logger with the given name.
+   * @param name The name for the underlying logger to be created.
+   * @return The underlying logger with the given name.
    */
-  protected val logger: Logger =
-    val name = 
-      val className = getClass.getName
-      if (className.endsWith("$"))
-        className.init
-      else
-        className
-    Logger(name)
+  protected def createUnderlying(name: String): U

@@ -19,10 +19,23 @@ package rocks.heikoseeberger.log4scala
 import org.apache.logging.log4j.ThreadContext
 import scala.jdk.CollectionConverters.{ IterableHasAsJava, MapHasAsJava }
 
-def withContextMap[A](keyAndValue: (String, String), moreKeyAndValue: (String, String)*)(chunk: => A): Unit =
+/**
+ * Adds the given map entries to the context, then executes the given chunck and finally removes the context entries.
+ */
+private def withContextMap[A](keyAndValue: (String, String), moreKeyAndValue: (String, String)*)(chunk: => A): Unit =
   val map = moreKeyAndValue.toMap + keyAndValue
   try
     ThreadContext.putAll(map.asJava)
     chunk
   finally 
     ThreadContext.removeAll(map.keys.asJava)
+
+/**
+ * Class name or object name without trailing "$".
+ */
+private def loggerName =
+    val className = getClass.getName
+    if (className.endsWith("$"))
+      className.init
+    else
+      className

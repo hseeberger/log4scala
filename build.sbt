@@ -10,6 +10,7 @@ lazy val log4scala =
     .settings(
       libraryDependencies ++= Seq(
         library.log4jApi,
+        library.slf4jApi,
         library.log4jCore       % Test,
         library.mockitoScala    % Test,
         library.munit           % Test,
@@ -27,12 +28,14 @@ lazy val library =
       val log4j   = "2.14.0"
       val mockito = "3.6.28"
       val munit   = "0.7.20"
+      val slf4j   = "1.7.30"
     }
     val log4jApi        = "org.apache.logging.log4j" %  "log4j-api"        % Version.log4j
     val log4jCore       = "org.apache.logging.log4j" %  "log4j-core"       % Version.log4j
     val mockitoScala    = "org.mockito"              %  "mockito-core"     % Version.mockito
     val munit           = "org.scalameta"            %% "munit"            % Version.munit
     val munitScalaCheck = "org.scalameta"            %% "munit-scalacheck" % Version.munit
+    val slf4jApi        = "org.slf4j"                %  "slf4j-api"        % Version.slf4j
   }
 
 // *****************************************************************************
